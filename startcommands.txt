@@ -1,0 +1,2 @@
+mcp-google-map --port 5000
+uvicorn app.main:app --reload --port 8000

@@ -1,0 +1,50 @@
+# ... (existing imports)
+
+@app.post("/api/v1/run_agent", response_model=AgentResponse)
+async def run_agent_session(
+    data: UserPrompt, 
+    db: Session = Depends(database.get_db) # Inject DB Session
+):
+    """
+    Runs the multi-agent system workflow, saves input/output, and returns the final response.
+    """
+    
+    session_id = data.session_id
+    
+    # 1. Fetch/Create User (simplified logic for demo)
+    # In a real app, you would verify the user ID, but here we assume a single demo user for simplicity.
+    user_db = db.query(models.User).filter(models.User.username == USER_ID).first()
+    if not user_db:
+        user_db = models.User(username=USER_ID)
+        db.add(user_db)
+        db.commit()
+        db.refresh(user_db)
+    
+    user_pk = user_db.id
+    
+    # 2. Save User Prompt
+    await save_message_to_db(db, session_id, user_pk, "user", data.prompt)
+    
+    # 3. Run Agent (ADK logic)
+    # ... (ADK session creation and runner.run_async logic remains the same)
+    
+    final_response_text = ""
+    
+    # Stream agent response (replace the synchronous run_async block from before)
+    async for event in runner.run_async(
+        user_id=USER_ID, 
+        session_id=session_id, 
+        new_message=new_message
+    ):
+        if event.is_final_response() and event.content and event.content.parts:
+            final_response_text = event.content.parts[0].text
+    
+    if final_response_text:
+        # 4. Save Agent Response
+        await save_message_to_db(db, session_id, user_pk, "assistant", final_response_text)
+    
+    # ... (return logic remains the same)
+    return AgentResponse(
+        message=final_response_text or "Context Herald terminated the request.",
+        session_id=session_id
+    )
