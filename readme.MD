@@ -1,7 +1,8 @@
-# 🌍 TerraScout — Multi-Agent Geo-Navigation System
+# 🌍 TerraScout — Multi-Agent Geo-Navigation System  [28-11-2025]
 
 A powerful agent-orchestrated system that transforms location-based queries into **structured, actionable intelligence**.
 
+Ensure to view important notes below
 ---
 
 ## 🏛️ Architecture — The Agentic Core
@@ -69,4 +70,9 @@ pip install google-adk fastapi uvicorn[standard] pydantic sqlalchemy
 ## Run the server:
 uvicorn app.main:app --reload --port 8000
 
+Important notes:
+```bash
+The models.py, database,py and  terracut.db are currently not in use and are undergoing development
 
+Please this is even more important, I will really appreciate feedback on improvements I can make based on observations. Fell free to send me an email -> davidezeani11@gmail.com
+```
