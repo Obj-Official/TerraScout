@@ -18,8 +18,8 @@ RETRY_CONFIG = types.HttpRetryOptions(
 # --- Environment Variable Setup ---
 # The logic from your first cell, ensuring keys are set from the environment.
 # Note: Do NOT hardcode secrets. Use environment variables.
-os.environ["GOOGLE_API_KEY"] = "AIzaSyCB4hgvolu8fsOTpCXSsqWk_Y7P9hzotmU" #os.getenv("GEMINI_API_KEY")
-os.environ["GOOGLE_MAPS_API_KEY"] = "AIzaSyD9GnFBnvyydRNQcyYU-DIRLI-NHqoKxyI"#os.getenv("GOOGLE_MAPS_API_KEY")
+os.environ["GOOGLE_API_KEY"] = os.getenv("GEMINI_API_KEY")
+os.environ["GOOGLE_MAPS_API_KEY"] = os.getenv("GOOGLE_MAPS_API_KEY")
 
 if not os.getenv("GOOGLE_API_KEY"):
     raise ValueError("GEMINI_API_KEY not found. Please set it in your environment.")

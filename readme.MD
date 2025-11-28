@@ -53,3 +53,20 @@ They gather rich contextual and geographic insights.
 
 ## 🧭 System Overview
 
+User Query → Context Herald → Master Navigator → Elite Navigators (x3) → Aggregator → JSON Response
+
+---
+
+## 🛠️ Quick Setup Guide
+
+### **Backend (FastAPI)**
+
+Install backend dependencies:
+
+```bash
+pip install google-adk fastapi uvicorn[standard] pydantic sqlalchemy
+
+## Run the server:
+uvicorn app.main:app --reload --port 8000
+
+
