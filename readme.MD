@@ -4,7 +4,6 @@ A powerful agent-orchestrated system that transforms location-based queries into
 
 ---
 Ensure to view important notes below
----
 
 ## 🏛️ Architecture — The Agentic Core
 
@@ -48,7 +47,6 @@ They gather rich contextual and geographic insights.
 | ⚡ **Contextual Filtering** | Context Herald blocks irrelevant queries before ADK agents activate. |
 | 🔀 **Parallel Processing** | Elite Navigators work simultaneously to reduce search time. |
 | 🧩 **Structured Output** | Guarantees predictable JSON for stable frontend rendering. |
-| 💾 **Persistent History** | All conversations saved in SQLite using SQLAlchemy ORM. |
 | ✔️ **CORS-Enabled API** | Fully configured FastAPI backend prevents 405 CORS issues. |
 
 ---
