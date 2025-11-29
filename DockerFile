@@ -1,0 +1,30 @@
+# Use a slim Python base image
+FROM python:3.12-slim
+
+# Set working directory
+WORKDIR /app
+
+# Copy requirements and install dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Install Node.js for the MCP server and install the necessary package globally
+# Vertex AI Agent Engine typically expects a single container, so we must run both the API and the MCP server in one.
+RUN apt-get update && apt-get install -y nodejs npm
+RUN npm install -g @cablate/mcp-google-map
+
+# Copy application files
+COPY app/ app/
+
+# Set environment variables for the application
+ENV GEMINI_API_KEY=YOUR_GEMINI_KEY
+ENV MAPS_API_KEY=YOUR_MAPS_KEY
+ENV MCP_SERVER_URL=http://localhost:5000/mcp
+ENV PORT=8080
+
+# Expose the port used by FastAPI
+EXPOSE 8080
+
+# --- Start both the MCP Server (in the background) and the FastAPI app ---
+# This is a common pattern for single-container deployment of multi-component systems.
+CMD ["/bin/bash", "-c", "mcp-google-map --port 5000 & uvicorn app.main:app --host 0.0.0.0 --port $PORT"]
