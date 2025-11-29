@@ -1,3 +1,5 @@
+![Alt text](terra1.png)
+
 # 🌍 TerraScout — Multi-Agent Geo-Navigation System  [28-11-2025]
 
 A powerful agent-orchestrated system that transforms location-based queries into **structured, actionable intelligence**.
@@ -6,6 +8,8 @@ A powerful agent-orchestrated system that transforms location-based queries into
 Ensure to view important notes below
 
 ## 🏛️ Architecture — The Agentic Core
+
+![Alt text](terra.jpg)
 
 Below is a high-level visualization of the TerraScout workflow:
 
