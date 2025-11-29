@@ -1,4 +1,4 @@
-![Alt text](terra1.png)
+![Alt text](terra3.png)
 
 # 🌍 TerraScout — Multi-Agent Geo-Navigation System  [28-11-2025]
 
