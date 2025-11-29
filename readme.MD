@@ -97,7 +97,8 @@ uvicorn app.main:app --reload --port 8000
 mcp-google-map --port 5000
 ```
 
-## From Your frontend, send a POST request to http://localhost:8000/api/v1/run_agent with a JSON body:
+## Sending request
+From Your frontend, send a POST request to http://localhost:8000/api/v1/run_agent with a JSON body:
 ```bash
 {
   "prompt": "Location: Latitude: 6.556877 Longitude: 4.55555 Request: Find me a gym closeby",
