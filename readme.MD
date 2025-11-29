@@ -64,17 +64,17 @@ User Query → Context Herald → Master Navigator → Elite Navigators (x3) →
 
 ## ℹ️ Folder Structure
 
-/terrascout_app
-├── /app
-│   ├── __init__.py
-│   ├── config.py            
-│   ├── database.py          # To be integrated: for SQLAlchemy, sessions, and DB creation
-│   ├── models.py            # To be integrated: Defines SQLAlchemy models (User, Message)
-│   ├── agents.py            
+/terrascout_app             
+├── /app             
+│   ├── __init__.py             
+│   ├── config.py                         
+│   ├── database.py          # To be integrated: for SQLAlchemy, sessions, and DB creation             
+│   ├── models.py            # To be integrated: Defines SQLAlchemy models (User, Message)             
+│   ├── agents.py                         
 │   ├── tools.py             
-│   └── main.py   
-├── .env                     # Local environment variables for secrets
-├── requirements.txt         # All Python dependencies
+│   └── main.py                
+├── .env                     # Local environment variables for secrets             
+├── requirements.txt         # All Python dependencies             
 └── Dockerfile               # For containerization and deployment to Vertex AI   
 
 ## 🛠️ Quick Setup Guide
