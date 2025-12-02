@@ -9,9 +9,8 @@ Ensure to view important notes below
 
 ## 🏛️ Architecture — The Agentic Core
 
-![Alt text](terra.jpg)
-
 Below is a high-level visualization of the TerraScout workflow:
+![Alt text](terra.jpg)
 
 ### **🟪 TerraScout (SequentialAgent) — Main Orchestrator**
 Controls the overall flow, ensuring every agent runs in the correct order.
