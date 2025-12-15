@@ -20,10 +20,16 @@ master_navigator_ani = Agent(
         model="gemini-2.5-flash", 
         retry_options=RETRY_CONFIG
     ),
-    instruction="""You are the Master geo-navigator, Ani, and your duty is to get the prompt from the user...
-    ...4. Third Location found and its coordinates """,
+    instruction="""You are the Master geo-navigator, Ani, and your duty is to get the prompt from the user
+    This prompt has the user's current location's coordinates and a request by the user
+    You are to find three most significant and MORE IMPORTANTLY closest places to the user based on the user's request.
+    Once you have obtained it, you MUST document the following details from your findings 
+    1. User's Current Location
+    2. First Location found and its coordinates
+    3. Second Location found and its coordinates 
+    4. Third Location found and its coordinates """,
     output_key="locations_gotten",
-    tools=[google_search, GOOGLE_MAP_TOOL], # Use the singular, correctly defined tool GOOGLE_MAP_TOOL
+    tools=[google_search], #GOOGLE_MAP_TOOL Use the singular, correctly defined tool GOOGLE_MAP_TOOL
 )
 
 # 2. Elite Navigator (Obie) - FIXED MODEL
@@ -33,12 +39,18 @@ elite_navigator_obie = Agent(
         model="gemini-2.5-flash",
         retry_options=RETRY_CONFIG
     ),
-    instruction="""You are Elite geo-navigator, Obie, and your duty is to: 
+   instruction="""You are Elite geo-navigator, Obie, and your duty is to: 
     - Get the user's current location, first location and it's coordinates in the output containing three locations saved at output key: {locations_gotten}
-    ...
+    - Your focus is ONLY the first location in relation to user's current location
+    - Research on this location using your tools, obtain some details, and document the results from the research focusing on the following details:
+    1. Name of Agent - Obie
+    2. Location name, 
+    3. Location address, 
+    4. Location url - a clickable link that takes you to its google map location, 
+    5. Distance from current location
     6. Details or brief description about the place.""",
     output_key="first_location_details",
-    tools=[google_search, GOOGLE_MAP_TOOL], 
+    tools=[google_search], #GOOGLE_MAP_TOOL
 )
 
 # 3. Elite Navigator (Kemi) - FIXED MODEL
@@ -49,9 +61,17 @@ elite_navigator_kemi = Agent(
         retry_options=RETRY_CONFIG
     ),
     instruction="""You are Elite geo-navigator, Kemi, and your duty is to: 
-    ...Your focus is ONLY the second location in relation to user's current location...""",
+    - Get the user's current location, second location and it's coordinates in the output containing three locations saved at output key: {locations_gotten}
+    - Your focus is ONLY the second location in relation to user's current location
+    - Research on this location using your tools, obtain some details, and document the results from the research focusing on the following details:
+    1. Name of Agent - Kemi
+    2. Location name, 
+    3. Location address, 
+    4. Location url - a clickable link that takes you to its google map location, 
+    5. Distance from current location
+    6. Details or brief description about the place.""",
     output_key="second_location_details",
-    tools=[google_search, GOOGLE_MAP_TOOL],
+    tools=[google_search], #GOOGLE_MAP_TOOL
 )
 
 # 4. Elite Navigator (Lexxie) - FIXED MODEL
@@ -62,9 +82,17 @@ elite_navigator_lexxie = Agent(
         retry_options=RETRY_CONFIG
     ),
     instruction="""You are Elite geo-navigator, Lexxie, and your duty is to: 
-    ...Your focus is ONLY the third location in relation to user's current location...""",
+    - Get the user's current location, third location and it's coordinates in the output containing three locations saved at output key: {locations_gotten}
+    - Your focus is ONLY the third location in relation to user's current location
+    - Research on this location using your tools, obtain some details, and document the results from the research focusing on the following details:
+    1. Name of Agent - Lexxie
+    2. Location name, 
+    3. Location address, 
+    4. Location url - a clickable link that takes you to its google map location, 
+    5. Distance from current location
+    6. Details or brief description about the place.""",
     output_key="third_location_details",
-    tools=[google_search, GOOGLE_MAP_TOOL], 
+    tools=[google_search], #GOOGLE_MAP_TOOL
 )
 
 # 5. Context Herald (LlmAgent) - FIXED MODEL
@@ -74,8 +102,12 @@ context_herald = LlmAgent(
         model="gemini-2.5-flash",
         retry_options=RETRY_CONFIG
     ),
-    instruction="""You are the context herald and a rookie navigator. Your duty is to review the prompt from the user...
-    ...You MUST call the `herald_exit_response` function and nothing else
+    instruction="""You are the context herald and a rookie navigator. Your duty is to review the prompt from the user.
+    Your tasks include: 
+    1. You are to ignore the location coordinates present in the prompt and do nothing about it.
+    2. You are to check the user request instead and see if the request is within context.
+    - IF the user in the prompt, is not asking for a place or location or not implying a place that can be located on the map.
+    - You MUST call the `herald_exit_response` function and nothing else
     - OTHERWISE, (which means it is within context), document the prompt as it is (with the coordinates)""",
     output_key="conveyed_message",
     tools=[HERALD_EXIT_TOOL],
@@ -89,7 +121,24 @@ aggregator = Agent(
         retry_options=RETRY_CONFIG
     ),
     instruction="""Combine the results of these three findings into a single JSON structure:
-    ...You MUST output ONLY a JSON which combines all the detail""",
+
+    **First Location Details:**
+    {first_location_details}
+    
+    **Second Location Details:**
+    {second_location_details}
+    
+    **Third Location Details:**
+    {third_location_details}
+
+    The JSON tructure will have an array containing three location objects with the following keys:
+    1. Name of Agent (elite_name),
+    2. Location name (location_name), 
+    3. Location address (location_address), 
+    4. Location url (location_url), 
+    5. Distance from current location (distance),
+    6. Details or brief description about the place (details).
+    You MUST output ONLY a JSON which combines all the detail""",
     output_key="all_location_response",
 )
 
@@ -108,4 +157,18 @@ ROOT_AGENT = SequentialAgent(
     # The workflow is: Context -> Master Ani -> Parallel Search -> Aggregator
     sub_agents=[context_herald, master_navigator_ani, parallel_elite_search, aggregator],
     after_agent_callback=auto_save_to_memory,
+)
+
+#--------Astra------------
+# 4. Astra the oracle
+astra = Agent(
+    name="Astra",
+    model=Gemini(
+        model="gemini-2.5-flash",
+        retry_options=RETRY_CONFIG
+    ),
+    instruction="""You are Elite geo-navigator, Lexxie, and your duty is to: 
+    ...Your focus is ONLY the third location in relation to user's current location...""",
+    output_key="third_location_details",
+    tools=[google_search], #GOOGLE_MAP_TOOL
 )

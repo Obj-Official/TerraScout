@@ -23,7 +23,7 @@ GOOGLE_MAP_TOOL = McpToolset(
 # --- Tool 2: Herald Exit Function ---
 
 def herald_exit_response():
-    """Call this function when the user's prompt is out of context."""
+    """Call this function when the user in the prompt, is not asking for a place or location or not implying a place that can be located on the map."""
     return {"status": "400", "message": "Sorry! The prompt you entered is not a Location Based request."}
 
 HERALD_EXIT_TOOL = FunctionTool(herald_exit_response)

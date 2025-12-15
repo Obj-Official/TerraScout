@@ -59,7 +59,7 @@ async def run_agent_session(data: UserPrompt):
     try:
         #Check if session exist
         session = await SESSION_SERVICE.get_session(app_name=APP_NAME, user_id=USER_ID, session_id=session_id)
-    except:
+    except ValueError:
         # If session doesn't exist, create a new one
         session = await SESSION_SERVICE.create_session(app_name=APP_NAME, user_id=USER_ID, session_id=session_id)
 
