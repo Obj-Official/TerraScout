@@ -29,7 +29,7 @@ master_navigator_ani = Agent(
     3. Second Location found and its coordinates 
     4. Third Location found and its coordinates """,
     output_key="locations_gotten",
-    tools=[google_search], #GOOGLE_MAP_TOOL Use the singular, correctly defined tool GOOGLE_MAP_TOOL
+    tools=[google_search, GOOGLE_MAP_TOOL], # Use the singular, correctly defined tool GOOGLE_MAP_TOOL
 )
 
 # 2. Elite Navigator (Obie) - FIXED MODEL
@@ -50,7 +50,7 @@ elite_navigator_obie = Agent(
     5. Distance from current location
     6. Details or brief description about the place.""",
     output_key="first_location_details",
-    tools=[google_search], #GOOGLE_MAP_TOOL
+    tools=[google_search, GOOGLE_MAP_TOOL], 
 )
 
 # 3. Elite Navigator (Kemi) - FIXED MODEL
@@ -71,7 +71,7 @@ elite_navigator_kemi = Agent(
     5. Distance from current location
     6. Details or brief description about the place.""",
     output_key="second_location_details",
-    tools=[google_search], #GOOGLE_MAP_TOOL
+    tools=[google_search, GOOGLE_MAP_TOOL],
 )
 
 # 4. Elite Navigator (Lexxie) - FIXED MODEL
@@ -92,7 +92,7 @@ elite_navigator_lexxie = Agent(
     5. Distance from current location
     6. Details or brief description about the place.""",
     output_key="third_location_details",
-    tools=[google_search], #GOOGLE_MAP_TOOL
+    tools=[google_search, GOOGLE_MAP_TOOL],
 )
 
 # 5. Context Herald (LlmAgent) - FIXED MODEL
@@ -159,16 +159,3 @@ ROOT_AGENT = SequentialAgent(
     after_agent_callback=auto_save_to_memory,
 )
 
-#--------Astra------------
-# 4. Astra the oracle
-astra = Agent(
-    name="Astra",
-    model=Gemini(
-        model="gemini-2.5-flash",
-        retry_options=RETRY_CONFIG
-    ),
-    instruction="""You are Elite geo-navigator, Lexxie, and your duty is to: 
-    ...Your focus is ONLY the third location in relation to user's current location...""",
-    output_key="third_location_details",
-    tools=[google_search], #GOOGLE_MAP_TOOL
-)
